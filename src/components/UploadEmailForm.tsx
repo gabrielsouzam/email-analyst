@@ -10,7 +10,7 @@ import {
 } from "../services/EmailService";
 
 interface UploadEmailForm {
-  handleSetEmailAnalysis: (emailAnalysis: EmailAnalysisResponse) => void;
+  handleSetEmailAnalysis: (emailAnalysis: EmailAnalysisResponse | null) => void;
 }
 
 export function UploadEmailForm({ handleSetEmailAnalysis }: UploadEmailForm) {
@@ -88,6 +88,7 @@ export function UploadEmailForm({ handleSetEmailAnalysis }: UploadEmailForm) {
 
           toast.success("Análise do e-mail efetuada com sucesso!");
         } else if (response.type === "error") {
+          handleSetEmailAnalysis(null);
           toast.error("Erro ao analisar arquivo!");
         }
       } else if (formData.emailContent && formData.emailContent.trim()) {
@@ -98,6 +99,7 @@ export function UploadEmailForm({ handleSetEmailAnalysis }: UploadEmailForm) {
 
           toast.success("Análise do e-mail efetuada com sucesso!");
         } else if (response.type === "error") {
+          handleSetEmailAnalysis(null);
           toast.error("Erro ao analisar texto!");
         }
       }

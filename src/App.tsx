@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 export function App() {
   const [emailAnalysis, setEmailAnalysis] = useState<EmailAnalysisResponse | null>(null)
 
-  function handleSetEmailAnalysis(emailAnalysis: EmailAnalysisResponse) {
+  function handleSetEmailAnalysis(emailAnalysis: EmailAnalysisResponse | null) {
     setEmailAnalysis(emailAnalysis)
   }
 
