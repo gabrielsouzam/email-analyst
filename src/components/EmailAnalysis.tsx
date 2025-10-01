@@ -13,15 +13,15 @@ interface EmailAnalysisProps {
 export function EmailAnalysis({ emailAnalysis }: EmailAnalysisProps) {
   const isProductive = emailAnalysis.category === "productive";
 
-   async function handleCopy() {
+  async function handleCopy() {
     try {
       await navigator.clipboard.writeText(emailAnalysis.response);
-      toast.success('Copiado para a área de transferência!');
+      toast.success("Copiado para a área de transferência!");
     } catch (err) {
       console.error("Erro ao copiar: ", err);
-      toast.error('Erro ao copiar');
+      toast.error("Erro ao copiar");
     }
-  };
+  }
 
   return (
     <div
@@ -33,7 +33,9 @@ export function EmailAnalysis({ emailAnalysis }: EmailAnalysisProps) {
       </h2>
 
       <div className="flex items-center justify-center lg:gap-8 gap-3 bg-zinc-50 lg:border-2 lg: border-zinc-200 rounded py-4 w-1/2 flex-col lg:flex-row">
-        <span className="font-light text-zinc-700 lg:text-lg">CLASSIFICAÇÃO</span>
+        <span className="font-light text-zinc-700 lg:text-lg">
+          CLASSIFICAÇÃO
+        </span>
         <div
           data-productive={isProductive}
           className="
@@ -44,13 +46,18 @@ export function EmailAnalysis({ emailAnalysis }: EmailAnalysisProps) {
         >
           {isProductive ? (
             <div className="flex items-center gap-2">
-              <RocketLaunchIcon className="lg:w-6 lg:h-6 h-4 w-4" weight="bold" />
+              <RocketLaunchIcon
+                className="lg:w-6 lg:h-6 h-4 w-4"
+                weight="bold"
+              />
               <span className="font-medium lg:text-lg text-sm">Produtivo</span>
             </div>
           ) : (
             <div className="flex items-center gap-2">
               <BroomIcon className="lg:w-6 lg:h-6 h-4 w-4" weight="bold" />
-              <span className="font-medium lg:text-lg text-sm">Improdutivo</span>
+              <span className="font-medium lg:text-lg text-sm">
+                Improdutivo
+              </span>
             </div>
           )}
         </div>
@@ -63,7 +70,7 @@ export function EmailAnalysis({ emailAnalysis }: EmailAnalysisProps) {
             <span className="lg:text-lg">Resposta Sugerida</span>
           </div>
 
-          <button 
+          <button
             onClick={handleCopy}
             className="flex items-center gap-1 px-3 py-2 bg-white rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors cursor-pointer"
           >
@@ -76,6 +83,19 @@ export function EmailAnalysis({ emailAnalysis }: EmailAnalysisProps) {
           <p className="text-gray-700 whitespace-pre-wrap font-mono text-sm leading-relaxed">
             {emailAnalysis.response}
           </p>
+        </div>
+
+        <div className="mt-6 flex lg:justify-end justify-center">
+          <a
+            href={`https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(
+              "Resposta automática"
+            )}&body=${encodeURIComponent(emailAnalysis.response)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-emerald-700 hover:text-emerald-800 hover:underline transition-colors"
+          >
+            Responder E-mail
+          </a>
         </div>
       </div>
     </div>
