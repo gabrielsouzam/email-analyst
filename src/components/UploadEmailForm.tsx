@@ -4,10 +4,13 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SpinnerIcon } from "@phosphor-icons/react";
 import { toast } from "sonner";
-import { analyzeEmailContent, analyzeEmailFile } from "../services/EmailService";
+import {
+  analyzeEmailContent,
+  analyzeEmailFile,
+} from "../services/EmailService";
 
 interface UploadEmailForm {
-  handleSetEmailAnalysis: (emailAnalysis: EmailAnalysisResponse) => void
+  handleSetEmailAnalysis: (emailAnalysis: EmailAnalysisResponse) => void;
 }
 
 export function UploadEmailForm({ handleSetEmailAnalysis }: UploadEmailForm) {
@@ -18,26 +21,14 @@ export function UploadEmailForm({ handleSetEmailAnalysis }: UploadEmailForm) {
     })
     .refine(
       (data) => {
-          const hasContent =
+        const hasContent =
           data.emailContent && data.emailContent.trim().length > 0;
         const hasFile = data.file instanceof File;
         return hasContent || hasFile;
       },
       {
         message: "Por favor, envie um arquivo ou digite o conteúdo do e-mail",
-        path: ['emailContent']
-      }
-    )
-    .refine(
-      (data) => {
-          const hasContent =
-          data.emailContent && data.emailContent.trim().length > 0;
-        const hasFile = data.file instanceof File;
-        return hasContent || hasFile;
-      },
-      {
-        message: "Por favor, envie um arquivo ou digite o conteúdo do e-mail",
-        path: ['file']
+        path: ["emailContent"],
       }
     )
     .refine(
@@ -45,11 +36,28 @@ export function UploadEmailForm({ handleSetEmailAnalysis }: UploadEmailForm) {
         const hasContent =
           data.emailContent && data.emailContent.trim().length > 0;
         const hasFile = data.file instanceof File;
-        return !(hasContent && hasFile);
+        return hasContent || hasFile;
       },
       {
-        message: "Envie apenas o arquivo OU o texto, não ambos",
-        path: []
+        message: "Por favor, envie um arquivo ou digite o conteúdo do e-mail",
+        path: ["file"],
+      }
+    )
+    .refine(
+      (data) => {
+        const hasFile = data.file instanceof File;
+
+        if (hasFile) return true;
+
+        if (data.emailContent) {
+          return data.emailContent.trim().length >= 10;
+        }
+
+        return true;
+      },
+      {
+        message: "E-mail deve ter no mínino 10 caracteres.",
+        path: ["emailContent"],
       }
     );
 
@@ -73,17 +81,30 @@ export function UploadEmailForm({ handleSetEmailAnalysis }: UploadEmailForm) {
   async function handleSendEmailContent(formData: UploadEmailType) {
     try {
       if (formData.file) {
-        const { data } = await analyzeEmailFile(formData.file)
-        handleSetEmailAnalysis(data)
+        const response = await analyzeEmailFile(formData.file);
+
+        if (response.data) {
+          handleSetEmailAnalysis(response.data);
+
+          toast.success("Análise do e-mail efetuada com sucesso!");
+        } else if (response.type === "error") {
+          toast.error("Erro ao analisar arquivo!");
+        }
       } else if (formData.emailContent && formData.emailContent.trim()) {
-        const { data } = await analyzeEmailContent(formData.emailContent)
-        handleSetEmailAnalysis(data)
+        const response = await analyzeEmailContent(formData.emailContent);
+
+        if (response.data) {
+          handleSetEmailAnalysis(response.data);
+
+          toast.success("Análise do e-mail efetuada com sucesso!");
+        } else if (response.type === "error") {
+          toast.error("Erro ao analisar texto!");
+        }
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error('Erro ao analisar e-mail!');
+      toast.error("Erro ao analisar e-mail!");
     } finally {
-      toast.success('Análise do e-mail efetuada com sucesso!');
       reset();
     }
   }
@@ -134,17 +155,29 @@ export function UploadEmailForm({ handleSetEmailAnalysis }: UploadEmailForm) {
             {...register("emailContent")}
             disabled={!!selectedFile}
           />
+
+          {errors.emailContent &&
+            !errors.file &&
+            typedText &&
+            typedText.trim().length > 0 && (
+              <div className="w-full p-3 bg-red-50 border border-red-200 rounded-lg mt-4">
+                <p className="text-red-600 text-sm text-center">
+                  {errors.emailContent.message}
+                </p>
+              </div>
+            )}
         </div>
       </div>
 
-      {(errors.file && errors.emailContent) && (
-        <div className="w-full p-3 bg-red-50 border border-red-200 rounded-lg mt-4">
-          <p className="text-red-600 text-sm text-center">
-            {(errors.file.message || errors.emailContent.message)}
-          </p>
-        </div>
-      )}
-      
+      {errors.file &&
+        errors.emailContent &&
+        errors.file.message === errors.emailContent.message && (
+          <div className="w-full p-3 bg-red-50 border border-red-200 rounded-lg mt-4">
+            <p className="text-red-600 text-sm text-center">
+              {errors.file.message}
+            </p>
+          </div>
+        )}
 
       <button
         className="bg-emerald-700 px-16 py-3 rounded-xl text-white cursor-pointer disabled:cursor-not-allowed disabled:bg-emerald-700/90 hover:bg-emerald-800 mt-8"

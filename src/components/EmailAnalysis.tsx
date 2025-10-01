@@ -25,15 +25,15 @@ export function EmailAnalysis({ emailAnalysis }: EmailAnalysisProps) {
 
   return (
     <div
-      className="mt-8 flex w-full items-center flex-col max-w-4xl bg-zinc-50 border-2 border-zinc-200 py-6 px-2
-      opacity-0 scale-95 animate-fade-in rounded"
+      className="mt-8 flex w-full items-center flex-col max-w-4xl bg-zinc-50 border-2 border-zinc-200 py-6 lg:px-2
+      opacity-0 scale-95 animate-fade-in rounded px-4"
     >
       <h2 className="text-2xl font-semibold text-blue-950 mb-3">
         Resultado da análise
       </h2>
 
-      <div className="flex items-center justify-center gap-8 bg-zinc-50 border-2 border-zinc-200 rounded px-4 py-4 w-1/2 text-lg">
-        <span className="font-light text-zinc-700 text-lg">CLASSIFICAÇÃO</span>
+      <div className="flex items-center justify-center lg:gap-8 gap-3 bg-zinc-50 lg:border-2 lg: border-zinc-200 rounded py-4 w-1/2 flex-col lg:flex-row">
+        <span className="font-light text-zinc-700 lg:text-lg">CLASSIFICAÇÃO</span>
         <div
           data-productive={isProductive}
           className="
@@ -43,24 +43,24 @@ export function EmailAnalysis({ emailAnalysis }: EmailAnalysisProps) {
           "
         >
           {isProductive ? (
-            <>
-              <RocketLaunchIcon size={24} weight="bold" />
-              <span className="font-medium text-lg">Produtivo</span>
-            </>
+            <div className="flex items-center gap-2">
+              <RocketLaunchIcon className="lg:w-6 lg:h-6 h-4 w-4" weight="bold" />
+              <span className="font-medium lg:text-lg text-sm">Produtivo</span>
+            </div>
           ) : (
-            <>
-              <BroomIcon size={24} weight="bold" />
-              <span className="font-medium text-lg">Improdutivo</span>
-            </>
+            <div className="flex items-center gap-2">
+              <BroomIcon className="lg:w-6 lg:h-6 h-4 w-4" weight="bold" />
+              <span className="font-medium lg:text-lg text-sm">Improdutivo</span>
+            </div>
           )}
         </div>
       </div>
 
-      <div className="bg-emerald-100 max-w-3xl w-full p-10 mt-10 border-2 border-emerald-200 rounded-2xl">
-        <div className="flex justify-between items-center mb-6">
+      <div className="bg-emerald-100 max-w-3xl w-full p-10 lg:mt-10 mt-4 border-2 border-emerald-200 rounded-2xl">
+        <div className="flex lg:justify-between items-center mb-6 flex-col lg:flex-row gap-4">
           <div className="flex gap-2 items-center">
             <SparkleIcon className="text-amber-400" weight="fill" size={24} />
-            <span className="text-lg">Resposta Sugerida</span>
+            <span className="lg:text-lg">Resposta Sugerida</span>
           </div>
 
           <button 

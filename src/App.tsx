@@ -16,7 +16,7 @@ export function App() {
       <Toaster richColors theme="light" />
       <div className="font-poppins pb-10">
       <Header />
-      <main className="my-10 flex items-center flex-col">
+      <main className="my-10 flex items-center flex-col px-10">
         <h2 className="text-2xl font-medium text-blue-950 mb-10">
           Análise seu e-mail
         </h2>
