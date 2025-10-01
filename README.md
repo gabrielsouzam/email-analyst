@@ -1,8 +1,8 @@
-# 📧 Email Analyst 
+# Email Analyst 
 
 Interface web para classificação inteligente de emails utilizando a API do Gemini.
 
-## 🚀 Tecnologias
+## Tecnologias
 
 - **React 19** - Biblioteca UI
 - **Vite 7** - Build tool e dev server
@@ -11,7 +11,7 @@ Interface web para classificação inteligente de emails utilizando a API do Gem
 - **React Hook Form + Zod** - Gerenciamento e validação de formulários
 - **Axios** - Cliente HTTP
 
-## 📋 Pré-requisitos
+## Pré-requisitos
 
 - Node.js 20.19+ e npm/yarn/pnpm instalados
 - Backend da aplicação rodando (veja [repositório do backend](https://github.com/gabrielsouzam/email-analyst-api))
@@ -20,19 +20,19 @@ Interface web para classificação inteligente de emails utilizando a API do Gem
 
 ```bash
 # Clone o repositório
-git clone https://github.com/gabrielsouzam/email-analyst
+git clone https://github.com/gabrielsouzam/email-analyst.git
 cd email-analyst
 
 # Instale as dependências
 npm install
 ```
 
-## ⚙️ Configuração
+## Configuração
 
 Crie um arquivo `.env` na raiz do projeto:
 
 ```env
-VITE_API_URL=http://localhost:8000
+VITE_API_URL=http://localhost:5000
 ```
 
 > **Nota:** Ajuste a URL para o endereço onde seu backend está rodando.
@@ -46,14 +46,17 @@ npm run dev
 Acesse: `http://localhost:5173`
 
 
-## 🎯 Funcionalidades
+## Funcionalidades
 
-- ✅ Upload de arquivos (.txt, .pdf)
-- ✅ Entrada manual de texto de email
-- ✅ Classificação automática (Produtivo/Improdutivo)
-- ✅ Sugestão de resposta automática
+- Upload de arquivos (.txt, .pdf)
+- Entrada manual de texto de email
+- Classificação automática (Produtivo/Improdutivo)
+- Sugestão de resposta automática
 
+## Deploy
 
-## 👨‍💻 Autor
+- A aplicação pode ser acessada [Clicando aqui](https://email-analyst.vercel.app/)
+
+## Autor
 
 Desenvolvido por Gabriel Mendes 💙!
